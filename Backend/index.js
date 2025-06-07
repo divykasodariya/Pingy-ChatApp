@@ -15,8 +15,16 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(cookieParser());
 const corsOptions = {
-    origin: "https://pingy-chat-app.vercel.app/",
-    credentials: true,
+    origin: [
+    'http://localhost:3000',
+    'http://localhost:5173',  // Vite dev server
+    'https://pingy-chat-app.vercel.app',
+    "https://pingy-chat-app-git-main-divykasodariyas-projects.vercel.app",  // Your Vercel URL
+    'https://pingy-chatapp.on.shiper.app'  // Your Shipper backend URL (if needed)
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }
 app.use(cors(corsOptions));
 
