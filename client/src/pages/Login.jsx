@@ -62,7 +62,7 @@ export function Login() {
       if (type === "login") {
         // Login API call
         const response = await axios.post(
-          "http://localhost:8080/api/v1/user/login",
+          "https://pingy-chatapp.on.shiper.app/api/v1/user/login",
           loginInput,
           { withCredentials: true }
         );
@@ -82,7 +82,7 @@ export function Login() {
       else {
         // Signup API call
         const response = await axios.post(
-          "http://localhost:8080/api/v1/user/register",
+          "https://pingy-chatapp.on.shiper.app/api/v1/user/register",
           signupInput
         );
 

@@ -29,7 +29,7 @@ const Home = () => {
     const fetchCurrentUser = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/v1/user/profile",
+          "https://pingy-chatapp.on.shiper.app/api/v1/user/profile",
           {
             withCredentials: true,
           }
@@ -47,7 +47,7 @@ const Home = () => {
     if (!currentUserId) {
       return;
     }
-    const newSocket = io("http://localhost:8080/", {
+    const newSocket = io("https://pingy-chatapp.on.shiper.app/", {
       withCredentials: true,
     });
     setSocket(newSocket);
@@ -84,7 +84,7 @@ const Home = () => {
   useEffect(() => {
     const fetchOtherUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/v1/user/", {
+        const response = await axios.get("https://pingy-chatapp.on.shiper.app/api/v1/user/", {
           withCredentials: true,
         });
         setChats(response.data);
@@ -105,7 +105,7 @@ const Home = () => {
     try {
       console.log("rec id :" + recid);
       const response = await axios.get(
-        `http://localhost:8080/api/v1/message/${recid}`,
+        `https://pingy-chatapp.on.shiper.app/api/v1/message/${recid}`,
         { withCredentials: true }
       );
 
@@ -118,7 +118,7 @@ const Home = () => {
   const handleLogOut = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/v1/user/logout`,
+        `https://pingy-chatapp.on.shiper.app/api/v1/user/logout`,
         { withCredentials: true }
       );
       navigate("/");
@@ -139,7 +139,7 @@ const Home = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/v1/message/send/${selectedChat._id}`,
+        `https://pingy-chatapp.on.shiper.app/api/v1/message/send/${selectedChat._id}`,
         { message: newMessage },
         { withCredentials: true }
       );
