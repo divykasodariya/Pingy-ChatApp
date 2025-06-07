@@ -27,18 +27,21 @@ export const register = async (req, res) => {
         //     message: "account created succesfully",
         //     sucess: true
         // })
-         const tokenData = {
-                    userId: user._id
-                }
-                const token = await jwt.sign(tokenData, process.env.JWT_SECRET_KEY, { expiresIn: "1d" });
-                return res.status(200).cookie("token", token, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "none" }).json({
-                    message: "succesfully loged in",
-                    sucess: true,
-                    userId: user._id,
-                    username: user.username,
-                    gender: user.gender,
-                    profilePhoto: user.profilePhoto,
-                })
+        const tokenData = {
+            userId: user._id
+        }
+        const token = await jwt.sign(tokenData, process.env.JWT_SECRET_KEY, { expiresIn: "1d" });
+        return res.status(200).cookie("token", token, {
+            maxAge: 24 * 60 * 60 * 1000, httpOnly: true, domain: undefined , secure: true,      
+            sameSite: 'none'
+        }).json({
+            message: "succesfully loged in",
+            sucess: true,
+            userId: user._id,
+            username: user.username,
+            gender: user.gender,
+            profilePhoto: user.profilePhoto,
+        })
 
     }
     catch (error) {
@@ -71,7 +74,10 @@ export const login = async (req, res) => {
                     userId: user._id
                 }
                 const token = await jwt.sign(tokenData, process.env.JWT_SECRET_KEY, { expiresIn: "1d" });
-                return res.status(200).cookie("token", token, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "none" }).json({
+                return res.status(200).cookie("token", token, {
+                    maxAge: 24 * 60 * 60 * 1000, httpOnly: true, secure: true,          // Required for cross-site cookies
+                    sameSite: 'none', domain: undefined
+                }).json({
                     message: "succesfully loged in",
                     sucess: true,
                     userId: user._id,
@@ -87,36 +93,36 @@ export const login = async (req, res) => {
         console.log(error);
     }
 }
-export const logout = async (req,res)=>{
+export const logout = async (req, res) => {
     try {
-        return res.status(200).cookie("token","",{maxAge:0}).json(
+        return res.status(200).cookie("token", "", { maxAge: 0 }).json(
             {
-                message:"logged out successfully"
+                message: "logged out successfully"
             }
         )
     } catch (error) {
         console.log(error)
     }
 }
-export const getOtherUsers = async(req,res)=>{
+export const getOtherUsers = async (req, res) => {
     try {
-        const loggedInUserId=req.id;
-        const otherUsers=await User.find({_id:{$ne:loggedInUserId}}).select("-password")
+        const loggedInUserId = req.id;
+        const otherUsers = await User.find({ _id: { $ne: loggedInUserId } }).select("-password")
         return res.status(200).json(otherUsers)
     } catch (error) {
         console.log(error)
     }
 }
-export const getProfile = async(req,res)=>{
+export const getProfile = async (req, res) => {
     try {
-        const userid=req.id;
-        
+        const userid = req.id;
+
         return res.status(200).json({
-            id:userid,
-            
+            id: userid,
+
 
         });
-    } 
+    }
     catch (error) {
         console.log(error);
         res.status(500).json({
